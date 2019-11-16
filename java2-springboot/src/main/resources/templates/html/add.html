@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html  xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<div id="sb">
+	<p><input v-model="stu.name">姓名</p>
+	<p><input v-model="stu.date">生日</p>
+	<button @click="add">添加</button>
+</div>
+<script type="text/javascript" th:src="@{js/jquery-1.12.4.js}"></script>
+<script type="text/javascript" th:src="@{js/vue.js}"></script>
+<script type="text/javascript">
+	var vue=new Vue({
+		el:"#sb",
+		data(){
+			return {
+				stu:{}
+			}
+		},methods:{
+			add:function(){
+				$.ajax({
+					url:"[[@{/add}]]",
+					type:"post",
+					data:JSON.stringify(vue.stu),
+					contentType:"application/json;charser=utf-8",
+					success:function(result){
+						alert(result)
+					}
+				})
+			}
+		}
+	})
+
+</script>
+</body>
+</html>

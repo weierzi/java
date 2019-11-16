@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<div id="sb">
+	<table border="1">
+		<tr>
+			<td>编号</td>
+			<td>姓名</td>
+			<td>生日</td>
+			<td colspan="3">操作</td>
+		</tr>
+		<tr v-for="stu in list">
+			<td>{{stu.id}}</td>
+			<td>{{stu.name}}</td>
+			<td>{{stu.date}}</td>
+			<td><a th:href="@{/toadd}">添加</a></td>
+			<td><a :href="'toupd?id='+stu.id">修改</a></td>
+			<td><button @click="del(stu.id)">删除</button></td>
+		</tr>
+	</table>
+</div>
+
+
+<script type="text/javascript" th:src="@{js/jquery-1.12.4.js}"></script>
+<script type="text/javascript" th:src="@{js/vue.js}"></script>
+<script type="text/javascript">
+	var vue=new Vue({
+		el:"#sb",
+		data(){
+			return {
+				list:[]
+			}
+		},methods:{
+			query:function(){
+				$.ajax({
+					url:"[[@{query}]]",
+					type:"post",
+					success:function(result){
+						vue.list=result;		
+					}
+				})
+			},
+			del:function(id){
+				$.ajax({
+					url:"[[@{del}]]",
+					data:{id:id},
+					success:function(result){
+						
+					}
+				})
+			}
+		},created:function(){
+			this.query();
+		}
+		
+		
+	})
+
+</script>
+</body>
+</html>
